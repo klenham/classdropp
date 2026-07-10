@@ -1,6 +1,6 @@
 "use client";
 
-import { upload } from "@vercel/blob/client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type Blob = {
@@ -70,13 +70,12 @@ export default function Home() {
   const doUpload = useCallback(
     async (f: File) => {
       setUploading(true);
-      const safeUploader =
-        (name || "Anonymous").replace(/[^a-zA-Z0-9-_ ]/g, "").slice(0, 40) || "Anonymous";
       try {
-        await upload(`${safeUploader}/${f.name}`, f, {
-          access: "public",
-          handleUploadUrl: "/api/upload",
-        });
+        const form = new FormData();
+        form.append("file", f);
+        form.append("uploader", name || "Anonymous");
+        const res = await fetch("/api/upload", { method: "POST", body: form });
+        if (!res.ok) throw new Error("Upload failed");
         if (inputRef.current) inputRef.current.value = "";
         await fetchFiles();
       } catch {
