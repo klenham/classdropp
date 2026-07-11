@@ -149,6 +149,7 @@ export default function Home() {
             <>
               <p className="font-medium">Drop a file here, or click to choose one</p>
               <p className="text-[#6b7178] text-xs mt-1">Uploads instantly for the whole class to see</p>
+              <p className="text-[#6b7178] text-xs mt-1">DEVELOPED BY GROUP 1</p>
             </>
           )}
         </label>
